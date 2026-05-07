@@ -94,7 +94,7 @@
     embedded
     vr-mode-ui="enabled:false"
     device-orientation-permission-ui="enabled:false"
-    style="display:none;"
+    style="opacity:0; pointer-events:none;"
   >
 
     <!-- preload -->
@@ -288,7 +288,15 @@
 
         await video.play();
 
-        scene.style.display = "block";
+        scene.style.opacity = "1";
+        scene.style.pointerEvents = "auto";
+        
+        // force resize
+        setTimeout(() => {
+          window.dispatchEvent(
+            new Event("resize")
+          );
+        }, 300);
 
         await new Promise(resolve => {
 
