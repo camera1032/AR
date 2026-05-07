@@ -1,9 +1,13 @@
 <!doctype html>
 <html>
+
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width,initial-scale=1">
 
   <style>
+
     html, body {
       margin: 0;
       width: 100%;
@@ -25,8 +29,9 @@
       position: fixed;
       top: 10px;
       left: 10px;
-      color: white;
       z-index: 9999;
+      color: white;
+      font-size: 14px;
       background: rgba(0,0,0,.5);
       padding: 8px;
       border-radius: 8px;
@@ -38,6 +43,8 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
+      padding: 12px 18px;
+      cursor: pointer;
     }
 
     a-scene {
@@ -45,15 +52,18 @@
       inset: 0 !important;
       z-index: 2;
     }
+
   </style>
 
   <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 
 </head>
 
 <body>
 
+  <!-- camera -->
   <video
     id="cameraFeed"
     autoplay
@@ -61,14 +71,20 @@
     playsinline>
   </video>
 
+
+  <!-- start -->
   <button id="startBtn">
     Start AR
   </button>
 
+
+  <!-- status -->
   <div id="hint">
     กดเริ่ม
   </div>
 
+
+  <!-- AR -->
   <a-scene
     id="scene"
     mindar-image="
@@ -76,130 +92,166 @@
       uiScanning: no;
     "
     embedded
-    vr-mode-ui="enabled: false"
-    device-orientation-permission-ui="enabled: false"
+    vr-mode-ui="enabled:false"
+    device-orientation-permission-ui="enabled:false"
     style="display:none;"
   >
 
-    <!-- Assets -->
+    <!-- preload -->
     <a-assets>
-    
+
       <img
         id="logoObj"
         src="./images/ar-obj/1.png">
-    
+
       <img
         id="hiluxObj"
-        src="./images/ar-obj/2.jpg">
-    
+        src="./images/ar-obj/2.png">
+
       <img
         id="fortunerObj"
         src="./images/ar-obj/3.png">
-    
+
       <img
         id="corollaObj"
         src="./images/ar-obj/4.png">
-    
+
     </a-assets>
 
-    <!-- 0 = โลโก้ -->
+
+    <!-- target 0 -->
     <a-entity
-      id="target0"
       mindar-image-target="targetIndex: 0">
 
       <a-plane
-        src="./images/ar-obj/1.png"
+        src="#logoObj"
         width="1"
         height="1"
-        material="transparent:true; side:double;">
+        material="
+          transparent:true;
+          side:double;
+          npot:true;
+        ">
       </a-plane>
 
     </a-entity>
 
 
-    <!-- 1 = Hilux -->
+    <!-- target 1 -->
     <a-entity
-      id="target1"
       mindar-image-target="targetIndex: 1">
 
       <a-plane
-        src="./images/ar-obj/2.jpg"
+        src="#hiluxObj"
         width="1.2"
         height="1"
-        material="transparent:true; side:double;">
+        material="
+          transparent:true;
+          side:double;
+          npot:true;
+        ">
       </a-plane>
 
     </a-entity>
 
 
-    <!-- 2 = Fortuner -->
+    <!-- target 2 -->
     <a-entity
-      id="target2"
       mindar-image-target="targetIndex: 2">
 
       <a-plane
-        src="./images/ar-obj/3.png"
+        src="#fortunerObj"
         width="1.2"
         height="1"
-        material="transparent:true; side:double;">
+        material="
+          transparent:true;
+          side:double;
+          npot:true;
+        ">
       </a-plane>
 
     </a-entity>
 
 
-    <!-- 3 = Corolla -->
+    <!-- target 3 -->
     <a-entity
-      id="target3"
       mindar-image-target="targetIndex: 3">
 
       <a-plane
-        src="./images/ar-obj/4.png"
+        src="#corollaObj"
         width="1.2"
         height="1"
-        material="transparent:true; side:double;">
+        material="
+          transparent:true;
+          side:double;
+          npot:true;
+        ">
       </a-plane>
 
     </a-entity>
 
 
-    <!-- 4 = โปสเตอร์เต็ม -->
+    <!-- target 4 = poster -->
     <a-entity
-      id="target4"
       mindar-image-target="targetIndex: 4">
-    
+
+      <!-- top logo -->
       <a-plane
         src="#logoObj"
         position="0 1.6 0"
         width="0.7"
         height="0.7"
-        material="transparent:true; side:double;">
+        material="
+          transparent:true;
+          side:double;
+          npot:true;
+        ">
       </a-plane>
-    
+
+
+      <!-- car 1 -->
       <a-plane
         src="#hiluxObj"
         position="0 0.4 0"
         width="1.3"
         height="0.8"
-        material="transparent:true; side:double;">
+        material="
+          transparent:true;
+          side:double;
+          npot:true;
+        ">
       </a-plane>
-    
+
+
+      <!-- car 2 -->
       <a-plane
         src="#fortunerObj"
         position="0 -0.8 0"
         width="1.3"
         height="0.8"
-        material="transparent:true; side:double;">
+        material="
+          transparent:true;
+          side:double;
+          npot:true;
+        ">
       </a-plane>
-    
+
+
+      <!-- car 3 -->
       <a-plane
         src="#corollaObj"
         position="0 -2.0 0"
         width="1.3"
         height="0.8"
-        material="transparent:true; side:double;">
+        material="
+          transparent:true;
+          side:double;
+          npot:true;
+        ">
       </a-plane>
-    
+
     </a-entity>
+
 
     <a-camera></a-camera>
 
@@ -214,11 +266,11 @@
     const scene =
       document.getElementById("scene");
 
-    const hint =
-      document.getElementById("hint");
-
     const startBtn =
       document.getElementById("startBtn");
+
+    const hint =
+      document.getElementById("hint");
 
 
     startBtn.onclick = async () => {
@@ -239,12 +291,23 @@
         scene.style.display = "block";
 
         await new Promise(resolve => {
-          if (scene.hasLoaded) resolve();
-          else scene.addEventListener(
-            "loaded",
-            resolve,
-            { once:true }
-          );
+
+          if (scene.hasLoaded) {
+
+            resolve();
+
+          }
+
+          else {
+
+            scene.addEventListener(
+              "loaded",
+              resolve,
+              { once:true }
+            );
+
+          }
+
         });
 
         const arSystem =
@@ -259,9 +322,9 @@
 
       }
 
-      catch(err) {
+      catch(error) {
 
-        console.error(err);
+        console.error(error);
 
         hint.textContent =
           "เปิดกล้องไม่สำเร็จ";
@@ -273,4 +336,5 @@
   </script>
 
 </body>
+
 </html>
